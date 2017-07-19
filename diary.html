@@ -1,7 +1,7 @@
 <!DOCTYPE>
 <html>
   <head>
-    <title>话题详情</title>
+    <title>日记详情</title>
     <meta charset="UTF-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0 user-scalable=no">
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
@@ -67,7 +67,6 @@
       .comment-name {
         font-size: 0.28rem;
         color: #f89f33;
-        height: 0.4rem;
       }
       .comment-avatar {
         float: left;
@@ -112,44 +111,12 @@
         font-size: 0.22rem;
         color: #6082a7;
       }
-      .topic-title {
-        font-size: 0.28rem;
-        color: #4a4a4a;
-        margin-bottom: 0.26rem;
-        text-align: justify;
-      }
-      .topic-body {
-        font-size: 0.24rem;
-        color: #afaa91;
-        line-height: 1.7;
-      }
-      .topic {
-        padding: 0.34rem 0.28rem;
-      }
-      .tag {
-        width: 1.16rem;
-        background: #9dc1f1;
-        color: #fff;
-        font-size: 0.22rem;
-        text-align: center;
-        height: 0.36rem;
-        line-height: 0.36rem;
-        margin-top: 0.26rem;
-        border-radius: 2px;
-      }
-      .topic-subtitle {
-        font-size: 0.18rem;
-        color: #9b9b9b;
-        margin-bottom: 0.24rem;
-      }
     </style>
   </head>
   <body>
     <div class="main">
-      <div class="topic" id="topic">
-      </div>
-      <div class="comments" id="comments">
-      </div>
+      <div id="body"></div>
+      <div id="comments"></div>
       <div class="no-content" hidden>页面不存在~</div>
       <div class="download-bar">
         <img src="./imgs/logo-sm.png" alt="logo" class="logo">
@@ -159,16 +126,23 @@
     </div>
   </body>
   <script id="body-temp" type="text/x-handlebars-template">
-    <div class="topic-title">
-      {{name}}
+    <div class="owner">
+      <img src="./imgs/logo-sm.png" alt="avatar" class="owner-avatar">
+      <span class="owner-name">{{user.nickname}}</span>
     </div>
-    <div class="topic-subtitle">
-      {{views}}浏览 | {{comment.num}}评论
+    {{#if status}}
+      <img src="./imgs/public.png" alt="public" class="public"/>
+     {{else}}
+      <img src="./imgs/private.png" alt="public" class="public"/>
+    {{/if}}
+    <div class="date">
+      <div class="day">{{getDay create_time}}</div>
+      <div class="week">星期{{getWeekday create_time}}<br/>{{getYM create_time}}</div>
     </div>
-    <div class="topic-body">
+    <div class="body">
       {{content}}
     </div>
-    <div class="tag">{{tag}}</div>
+    <img src={{img}} alt="img" class="image"/>
   </script>
   <script id="comment-temp" type="text/x-handlebars-template">
      {{#each this}} 
@@ -213,7 +187,7 @@
       var page = 0
       var comments = [];
       var userId = '';
-      var diaryId = '';
+      var diaryId = params.diary_id;
       function loadComments() {
         get('/api/' + diaryId + '/' + userId + '/commentp/16?rn=10&p=' + page, function(data) {
           // comments.concat(data.comments || []);
@@ -226,14 +200,13 @@
           }
         })
       }
-      get('/api/talkp/' + params.talk_id + '/16', function(data) {
-        if (data && data.talk) {
-          $('#topic').append(bodyTemp(data.talk));
-          diaryId = data.talk.diary_id;
-          userId = data.talk.user_id;
+      get('/api/diaryp/' + diaryId + '/16', function(data) {
+        if (data && data.diary) {
+          $('#body').append(bodyTemp(data.diary));
+          userId = data.diary.user_id;
           loadComments();
         } else {
-          $('.no-content').show()
+          $('.no-content').show();
         }
       })
       window.onscroll = function(e) {
