@@ -1,0 +1,220 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <title>日记详情</title>
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0 user-scalable=no">
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+    <script src='https://cdn.bootcss.com/handlebars.js/4.0.10/handlebars.min.js'></script>
+    <script src="./util.js" type="text/javascript"></script>
+    <script src="./data.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+      .owner {
+        padding: 0.28rem 0.32rem 0.2rem 0;
+        overflow: hidden;
+      }
+      .owner-name {
+        float: right;
+        font-size: 0.24rem;
+        color: #9b9b9b;
+        float: right;
+        line-height: 0.5rem;
+      }
+      .owner-avatar {
+        float: right;
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 0.25rem;
+        margin-left: 0.22rem;
+      }
+      .public {
+        float: right;
+        width: 0.9rem;
+        height: 0.56rem;
+        margin-right: 0.48rem;
+      }
+      .date {
+        overflow: hidden;
+      }
+      .day {
+        font-size: 0.86rem;
+        color: #f48cc3;
+        float: left;
+        margin-left: 0.28rem;
+      }
+      .week {
+        font-size: 0.24rem;
+        color: #9b9b9b;
+        float: left;
+        margin-top: 0.3rem;
+        margin-left: 0.16rem;
+      }
+      .body {
+        font-size: 0.28rem;
+        color: #4a4a4a;
+        padding: 0.32rem;
+        line-height: 0.5rem;
+        text-align: justify;
+      }
+      .image {
+        max-width: 6.4rem;
+        max-height: 4.8rem;
+        display: block;
+        margin: 0 auto;
+        margin-bottom: 0.52rem;
+      }
+      .comment-name {
+        font-size: 0.28rem;
+        color: #f89f33;
+      }
+      .comment-avatar {
+        float: left;
+        width: 0.8rem;
+        height: 0.8rem;
+        border-radius: 0.4rem;
+        margin-right: 0.3rem;
+      }
+      .comment-sub-text {
+        font-size: 0.18rem;
+        color: #9b9b9b;
+      }
+      .comment {
+        border-top: 1px solid #dcdcdc;
+        padding: 0.28rem;
+      }
+      .comment-icon {
+        width: 0.3rem;
+        height: 0.3rem;
+        float: left;
+        margin-right: 0.1rem;
+      }
+      .comment-icon-container {
+        float: right;
+        width: 0.7rem;
+        height: 0.4rem;
+        font-size: 0.28rem;
+        color: #9b9b9b;
+        overflow: hidden;
+      }
+      .comment-body {
+        margin: 0.26rem 0 0.3rem 0;
+        color: #4a4a4a;
+        font-size: 0.28rem;
+      }
+      .comment-sub-body {
+        width: 6rem;
+        background: #f7f7f7;
+        line-height: 0.7rem;
+        height: 0.7rem;
+        padding: 0 0.25rem;
+        font-size: 0.22rem;
+        color: #6082a7;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main">
+      <div id="body"></div>
+      <div id="comments"></div>
+      <div class="no-content" hidden>页面不存在~</div>
+      <div class="download-bar">
+        <img src="./imgs/logo-sm.png" alt="logo" class="logo">
+        <span>浅言，把日子过成诗</span>
+        <a href="qianyan://" class="link">打开</a>
+      </div>
+    </div>
+  </body>
+  <script id="body-temp" type="text/x-handlebars-template">
+    <div class="owner">
+      <img src="./imgs/logo-sm.png" alt="avatar" class="owner-avatar">
+      <span class="owner-name">{{user.nickname}}</span>
+    </div>
+    {{#if status}}
+      <img src="./imgs/public.png" alt="public" class="public"/>
+     {{else}}
+      <img src="./imgs/private.png" alt="public" class="public"/>
+    {{/if}}
+    <div class="date">
+      <div class="day">{{getDay create_time}}</div>
+      <div class="week">星期{{getWeekday create_time}}<br/>{{getYM create_time}}</div>
+    </div>
+    <div class="body">
+      {{content}}
+    </div>
+    <img src={{img}} alt="img" class="image"/>
+  </script>
+  <script id="comment-temp" type="text/x-handlebars-template">
+     {{#each this}} 
+      <div class="comment">
+        <div class="comment-user">
+          <div class="comment-icon-container">
+            <span style="float: right">{{like.num}}</span>
+            <img src="./imgs/like.png" alt="like" class="comment-icon"/>
+          </div>
+          <div class="comment-icon-container">
+            <img src="./imgs/comment.png" alt="comment" class="comment-icon"/>
+          </div>
+          {{#if avtar}}
+            <img src={{avtar}} alt="comment-avatar" class="comment-avatar"/>
+            {{else}}
+            <img src="./imgs/default_avatar.png" alt="comment-avatar" class="comment-avatar"/>
+          {{/if}}
+          <div class="comment-name">{{nickname}}</div>
+          <div class="comment-sub-text">{{getIndex @index}}楼 更新于 {{getDate create_time}}</div>
+        </div>
+        <div class="comment-body">
+          {{content}}
+        </div>
+        {{#if count}}
+          <div class="comment-sub-body">
+            {{getRecommentName recomments}}
+            <span style="color: #9b9b9b">等人</span>
+            共{{count}}条回复>
+          </div>
+        {{/if}}
+      </div>
+     {{~/each}}
+  </script>
+  <script type="text/javascript">
+    $(function() {
+      var bodyTemp = Handlebars.compile($('#body-temp').html());
+      var commentTemp = Handlebars.compile($('#comment-temp').html());
+      var query = window.location.search;
+      var params = getParams(query);
+      var hasMore = true;
+      var isLoading = false;
+      var page = 0
+      var comments = [];
+      var userId = '';
+      var diaryId = params.diary_id;
+      $('.link').attr('href', 'qianyan://diary/' + diaryId);
+      function loadComments() {
+        get('/api/' + diaryId + '/' + userId + '/commentp/16?rn=10&p=' + page, function(data) {
+          // comments.concat(data.comments || []);
+          comments = comments.concat(data.comments);
+          $('#comments').empty();
+          $('#comments').append(commentTemp(comments));
+          page++;
+          if (data.comments.length < 10) {
+            hasMore = false;
+          }
+        })
+      }
+      get('/api/diaryp/' + diaryId + '/16', function(data) {
+        if (data && data.diary) {
+          $('#body').append(bodyTemp(data.diary));
+          userId = data.diary.user_id;
+          loadComments();
+        } else {
+          $('.no-content').show();
+        }
+      })
+      window.onscroll = function(e) {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight && hasMore && !isLoading) {
+          loadComments()
+        }
+      }
+    })
+  </script>
+</html>
