@@ -214,6 +214,7 @@
       var comments = [];
       var userId = '';
       var diaryId = '';
+      $('.link').attr('href', 'qianyan://topic/' + params.talk_id);
       function loadComments() {
         get('/api/' + diaryId + '/' + userId + '/commentp/16?rn=10&p=' + page, function(data) {
           // comments.concat(data.comments || []);
