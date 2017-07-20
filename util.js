@@ -36,6 +36,13 @@ function getParams(query) {
   }
   return params;
 }
+function formateTime(time){
+  // var isIOS = new RegExp('iphone|ipad|ipod|ios', 'i').test(navigator.userAgent);
+  // if (!isIOS) {
+  //   return time;
+  // }
+  return time.split(' ').join('T') + 'Z';
+};
 
 Handlebars.registerHelper('getIndex', function(idx) {
   return idx + 1;
@@ -56,20 +63,24 @@ Handlebars.registerHelper('getDay', function(time) {
   if(!time) {
     return ' '
   }
-  var date = new Date(time);
+  var _time = formateTime(time)
+  console.log(_time)
+  var date = new Date(_time);
   return date.getDate();
 })
 Handlebars.registerHelper('getWeekday', function(time) {
   if (!time) {
     return ' '
   }
-  var date = new Date(time);
+  var _time = formateTime(time)
+  var date = new Date(_time);
   return weekdays[date.getDay()];
 })
 Handlebars.registerHelper('getYM', function(time) {
   if (!time) {
     return ' '
   }
-  var date = new Date(time);
+  var _time = formateTime(time)
+  var date = new Date(_time);
   return date.getFullYear() + '年' + (date.getMonth() + 1) + '月';
 })
