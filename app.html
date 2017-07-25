@@ -1,12 +1,13 @@
 <!DOCTYPE>
 <html>
   <head>
-    <title>日记</title>
+    <title>浅言</title>
     <meta charset="UTF-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0 user-scalable=no">
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
     <script src='https://cdn.bootcss.com/handlebars.js/4.0.10/handlebars.min.js'></script>
     <script src="./util.js" type="text/javascript"></script>
+    <link rel="icon" href="./imgs/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" type="text/css" href="style.css">
     <style>
       .text {
@@ -22,10 +23,21 @@
         height: 2rem;
         margin: 0.6rem auto;
       }
+      .app-img {
+        width: 100%;
+      }
+      .download-btn {
+        display: block;
+        width: 3.7rem;
+        margin: 0 auto;
+      }
     </style>
   </head>
   <body>
     <div class="main">
+      <img src="./imgs/appImg.png" alt="qianyan" class="app-img">
+      <img src="./imgs/qrcode.jpeg" alt="qrcode" class="qrcode"/>
+      <img src="./imgs/downloadbtn.png" alt="btn" class="download-btn"/>
       <div class="text">
         人应该每天读首小诗、听首新歌、看幅好画……<br/>
         <br/>
@@ -36,9 +48,6 @@
         在这里，你还可以与同片天空下的人们，讨论彼此都感兴趣的事物，再不孤单。<br/>
         <br/>
         最后，你可以选择把你写下的文字生成文集，把生活中的细节串成一首诗~~~朋友来《浅言》吧，这里就是你的心灵栖所！<br/>
-      </div>
-      <div>
-        <img src="./imgs/qrcode.jpeg" alt="qrcode" class="qrcode"/>
       </div>
       <div class="download-bar">
         <img src="./imgs/logo-sm.png" alt="logo" class="logo">
