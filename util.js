@@ -84,3 +84,10 @@ Handlebars.registerHelper('getYM', function(time) {
   var date = new Date(_time);
   return date.getFullYear() + '年' + (date.getMonth() + 1) + '月';
 })
+Handlebars.registerHelper('getImg', function(img) {
+  var index = +img
+  if (isNaN(index)) {
+    return img;
+  }
+  return './imgs/imgLib/' + img + '.jpg';
+})
