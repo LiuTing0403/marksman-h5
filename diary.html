@@ -128,7 +128,7 @@
   </body>
   <script id="body-temp" type="text/x-handlebars-template">
     <div class="owner">
-      <img src="./imgs/logo-sm.png" alt="avatar" class="owner-avatar">
+      <img src={{user.avtar}} alt="avatar" class="owner-avatar">
       <span class="owner-name">{{user.nickname}}</span>
     </div>
     {{#if ifprivate}}
@@ -162,7 +162,7 @@
             <img src="./imgs/default_avatar.png" alt="comment-avatar" class="comment-avatar"/>
           {{/if}}
           <div class="comment-name">{{nickname}}</div>
-          <div class="comment-sub-text">{{getIndex @index}}楼 更新于 {{getDate create_time}}</div>
+          <div class="comment-sub-text">{{getIndex @index}}楼 更新于 {{create_time}}</div>
         </div>
         <div class="comment-body">
           {{content}}
