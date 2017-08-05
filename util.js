@@ -12,7 +12,7 @@ function get(path, callback) {
     dataType: 'JSONP',
     jsonp: 'callback',
     jsonpCallback: 'cb',
-    url: 'http://101.95.97.178:2003' + path,
+    url: 'http://business.qianyan.zhuoyoutech.com:2003' + path,
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/com.droi.qy-v1.0-1+json',
