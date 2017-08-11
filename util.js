@@ -85,7 +85,7 @@ Handlebars.registerHelper('getYM', function(time) {
   return date.getFullYear() + '年' + (date.getMonth() + 1) + '月';
 })
 Handlebars.registerHelper('getImg', function(img) {
-  if (img === "") {
+  if (!img) {
     return ""
   }
   var index = +img
