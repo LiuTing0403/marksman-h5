@@ -143,7 +143,9 @@
     <div class="body">
       {{content}}
     </div>
+    {{#if img}}
     <img src={{getImg img}} alt="" class="image"/>
+    {{/if}}
   </script>
   <script id="comment-temp" type="text/x-handlebars-template">
      {{#each this}} 
