@@ -193,6 +193,9 @@
         <div class="comment-body">
           {{content}}
         </div>
+        {{#if img}}
+          <img src={{img}} alt="comment" class="comment-img"/>
+        {{/if}}
         {{#if count}}
           <div class="comment-sub-body">
             {{getRecommentName recomments}}
