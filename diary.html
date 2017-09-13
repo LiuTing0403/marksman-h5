@@ -202,15 +202,17 @@
       var userId = '';
       var diaryId = params.diary_id;
       function loadComments() {
+        isLoading = true;
         get('/api/' + diaryId + '/' + userId + '/commentp/16?rn=10&p=' + page, function(data) {
           // comments.concat(data.comments || []);
-          comments = comments.concat(data.comments);
-          $('#comments').empty();
-          $('#comments').append(commentTemp(comments));
+          isLoading = false;
           page++;
           if (data.comments.length < 10) {
             hasMore = false;
           }
+          comments = comments.concat(data.comments);
+          $('#comments').empty();
+          $('#comments').append(commentTemp(comments));
         })
       }
       get('/api/diaryp/' + diaryId + '/16', function(data) {
